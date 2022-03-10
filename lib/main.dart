@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'route/route.dart' as route;
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Worney',
-      // debugShowCheckedModeBanner: false,
+      debugShowCheckedModeBanner: false,
       // initialRoute: '/',
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFFFFFFFF),

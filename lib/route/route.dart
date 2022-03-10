@@ -7,7 +7,7 @@ const String homeScreen = 'home';
 Route<dynamic> controller(RouteSettings settings) {
   switch (settings.name) {
     case homeScreen:
-      return MaterialPageRoute(builder: (context) => HomeScreen());
+      return MaterialPageRoute(builder: (context) => const HomeScreen());
     default:
       throw('This route name does not exit');
     }
