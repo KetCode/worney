@@ -9,7 +9,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  late String _hour, _minute, _time, _showHour = '00 : 00';
+  late String _hour, _minute, _showHour = '00 : 00';
  
   TimeOfDay selectedTimeIn = const TimeOfDay(hour: 00, minute: 00);
   TimeOfDay selectedTimeOut = const TimeOfDay(hour: 00, minute: 00);
@@ -32,6 +32,18 @@ class _HomeScreenState extends State<HomeScreen> {
     return hours * 60 + minuts;
   }
 
+  String convertTimeToString(int hour, int minute){
+    _hour = hour.toString().padLeft(2, '0');
+    _minute = minute.toString().padLeft(2, '0');
+    return _hour + ' : ' + _minute;
+  }
+
+  String showHour(int time){
+    int hour = time ~/ 60;
+    int minutes = time % 60; 
+    return _showHour = hour.toString().padLeft(2, '0') + ' : ' + minutes.toString().padLeft(2, '0');
+  }
+
   Future<void> _selectTimeIn(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
@@ -40,10 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (picked != null) {
       setState(() {
         selectedTimeIn = picked;
-        _hour = selectedTimeIn.hour.toString().padLeft(2, '0');
-        _minute = selectedTimeIn.minute.toString().padLeft(2, '0');
-        _time = _hour + ' : ' + _minute;
-        _timeControllerIn.text = _time;
+        _timeControllerIn.text = convertTimeToString(selectedTimeIn.hour, selectedTimeIn.minute);
       });
     }
   }
@@ -56,15 +65,10 @@ class _HomeScreenState extends State<HomeScreen> {
     if (picked != null) {
       setState(() {
         selectedTimeOut = picked;
-        _hour = selectedTimeOut.hour.toString().padLeft(2, '0');
-        _minute = selectedTimeOut.minute.toString().padLeft(2, '0');
-        _time = _hour + ' : ' + _minute;
-        _timeControllerOut.text = _time;
+        _timeControllerOut.text = convertTimeToString(selectedTimeOut.hour, selectedTimeOut.minute);
         
         int calcTime = sumHours(selectedTimeIn, selectedTimeOut);
-        final int hour = calcTime ~/ 60;
-        final int minutes = calcTime % 60; 
-        _showHour = hour.toString().padLeft(2, '0') + ' : ' + minutes.toString().padLeft(2, '0');
+        showHour(calcTime);
       });
     }
   }
@@ -77,10 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (picked != null) {
       setState(() {
         selectedTimeIn2 = picked;
-        _hour = selectedTimeIn2.hour.toString().padLeft(2, '0');
-        _minute = selectedTimeIn2.minute.toString().padLeft(2, '0');
-        _time = _hour + ' : ' + _minute;
-        _timeControllerIn2.text = _time;
+        _timeControllerIn2.text = convertTimeToString(selectedTimeIn2.hour, selectedTimeIn2.minute);
       });
     }
   }
@@ -93,15 +94,10 @@ class _HomeScreenState extends State<HomeScreen> {
     if (picked != null) {
       setState(() {
         selectedTimeOut2 = picked;
-        _hour = selectedTimeOut2.hour.toString().padLeft(2, '0');
-        _minute = selectedTimeOut2.minute.toString().padLeft(2, '0');
-        _time = _hour + ' : ' + _minute;
-        _timeControllerOut2.text = _time;
+        _timeControllerOut2.text = convertTimeToString(selectedTimeOut2.hour, selectedTimeOut2.minute);
         
         int calcTime = sumHours(selectedTimeIn, selectedTimeOut) + sumHours(selectedTimeIn2, selectedTimeOut2);
-        final int hour = calcTime ~/ 60;
-        final int minutes = calcTime % 60; 
-        _showHour = hour.toString().padLeft(2, '0') + ' : ' + minutes.toString().padLeft(2, '0');
+        showHour(calcTime);
       });
     }
   }
@@ -114,10 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (picked != null) {
       setState(() {
         selectedTimeIn3 = picked;
-        _hour = selectedTimeIn3.hour.toString().padLeft(2, '0');
-        _minute = selectedTimeIn3.minute.toString().padLeft(2, '0');
-        _time = _hour + ' : ' + _minute;
-        _timeControllerIn3.text = _time;
+        _timeControllerIn3.text = convertTimeToString(selectedTimeIn3.hour, selectedTimeIn3.minute);
       });
     }
   }
@@ -130,15 +123,10 @@ class _HomeScreenState extends State<HomeScreen> {
     if (picked != null) {
       setState(() {
         selectedTimeOut3 = picked;
-        _hour = selectedTimeOut3.hour.toString().padLeft(2, '0');
-        _minute = selectedTimeOut3.minute.toString().padLeft(2, '0');
-        _time = _hour + ' : ' + _minute;
-        _timeControllerOut3.text = _time;
+        _timeControllerOut3.text = convertTimeToString(selectedTimeOut3.hour, selectedTimeOut3.minute);
         
         int calcTime = sumHours(selectedTimeIn, selectedTimeOut) + sumHours(selectedTimeIn2, selectedTimeOut2)  + sumHours(selectedTimeIn3, selectedTimeOut3);
-        final int hour = calcTime ~/ 60;
-        final int minutes = calcTime % 60; 
-        _showHour = hour.toString().padLeft(2, '0') + ' : ' + minutes.toString().padLeft(2, '0');
+        showHour(calcTime);
       });
     }
   }
