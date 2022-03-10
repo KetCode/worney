@@ -17,7 +17,7 @@ To run this script you need to install locally on your machine the following dep
 
 ## Features
 
-- [x] Calculate hours
+- [ ] Calculate hours
 - [ ] Add hours blocks
 - [ ] In n' Out button
 - [ ] Current hour button
@@ -27,4 +27,3 @@ To run this script you need to install locally on your machine the following dep
 - [ ] Show extra hours
 - [ ] Dark mode
 - [ ] B2B tests
-- [ ] Refactor code
