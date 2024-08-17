@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../utils/timeEntry.dart';
 
 class HomeScreen extends StatefulWidget {
 
@@ -9,7 +10,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
-  late String _hour, _minute, _showHour = '00 : 00';
+  late String _hour, _minute, _showHour;
  
   TimeOfDay selectedTimeIn = const TimeOfDay(hour: 00, minute: 00);
   TimeOfDay selectedTimeOut = const TimeOfDay(hour: 00, minute: 00);
@@ -28,8 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
   int sumHours(TimeOfDay start, TimeOfDay end) {
     double totalTime = (end.hour + (end.minute / 60)) - (start.hour + (start.minute / 60));
     int hours = totalTime.floor();
-    int minuts = ((totalTime - totalTime.floorToDouble()) * 60).round();
-    return hours * 60 + minuts;
+    int minutes = ((totalTime - totalTime.floorToDouble()) * 60).round();
+    return hours * 60 + minutes;
   }
 
   String convertTimeToString(int hour, int minute){
@@ -161,272 +162,24 @@ class _HomeScreenState extends State<HomeScreen> {
                 // style: Theme.of(context).textTheme.headline2,
                 style: const TextStyle(
                   color: Color(0xFF585666), //Color(0xFFFF9419)
-                  fontSize: 52,
-                  fontWeight: FontWeight.w600,
+                  fontSize: 62,
+                  fontWeight: FontWeight.w800,
                   fontFamily: 'Lexend',
                 ), 
                 textAlign: TextAlign.center,
               ),
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 6), //removed horizontal: 38 to make more responsive.
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(right: 2),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Entrada',
-                          style: TextStyle(
-                            color: Color(0xFF706E7A),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'Inter',
-                          ),
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: const Color(0xFF585666),
-                            fixedSize: const Size(147, 55),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(5),
-                                topLeft: Radius.circular(5),
-                              ),
-                            ),
-                          ),
-                          onPressed: () => _selectTimeIn(context),
-                          child: Text(
-                            _timeControllerIn.text,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Inter',
-                            ),  //
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 2),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        const Text(
-                          'Saída',
-                          style: TextStyle(
-                            color: Color(0xFF706E7A),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'Inter',
-                          ),
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: const Color(0xFF585666),
-                            fixedSize: const Size(147, 55),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(5),
-                                topRight: Radius.circular(5),
-                              ),
-                            ),
-                          ),
-                          onPressed: () => _selectTimeOut(context),
-                          child: Text(
-                            _timeControllerOut.text,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Inter',
-                            ), //
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+            TimeEntry(
+              entryText: _timeControllerIn.text,
+              exitText: _timeControllerOut.text,
+              onEntryPressed: () => _selectTimeIn(context),
+              onExitPressed: () => _selectTimeOut(context),
             ),
-
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 6), //removed horizontal: 38 to make more responsive.
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(right: 2),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Entrada',
-                          style: TextStyle(
-                            color: Color(0xFF706E7A),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'Inter',
-                          ),
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: const Color(0xFF585666),
-                            fixedSize: const Size(147, 55),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(5),
-                                topLeft: Radius.circular(5),
-                              ),
-                            ),
-                          ),
-                          onPressed: () => _selectTimeIn2(context),
-                          child: Text(
-                            _timeControllerIn2.text,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Inter',
-                            ),  //
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 2),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        const Text(
-                          'Saída',
-                          style: TextStyle(
-                            color: Color(0xFF706E7A),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'Inter',
-                          ),
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: const Color(0xFF585666),
-                            fixedSize: const Size(147, 55),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(5),
-                                topRight: Radius.circular(5),
-                              ),
-                            ),
-                          ),
-                          onPressed: () => _selectTimeOut2(context),
-                          child: Text(
-                            _timeControllerOut2.text,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Inter',
-                            ), //
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 6), //removed horizontal: 38 to make more responsive.
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(right: 2),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Entrada',
-                          style: TextStyle(
-                            color: Color(0xFF706E7A),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'Inter',
-                          ),
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: const Color(0xFF585666),
-                            fixedSize: const Size(147, 55),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(5),
-                                topLeft: Radius.circular(5),
-                              ),
-                            ),
-                          ),
-                          onPressed: () => _selectTimeIn3(context),
-                          child: Text(
-                            _timeControllerIn3.text,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Inter',
-                            ),  //
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 2),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        const Text(
-                          'Saída',
-                          style: TextStyle(
-                            color: Color(0xFF706E7A),
-                            fontSize: 13,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: 'Inter',
-                          ),
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: const Color(0xFF585666),
-                            fixedSize: const Size(147, 55),
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                bottomRight: Radius.circular(5),
-                                topRight: Radius.circular(5),
-                              ),
-                            ),
-                          ),
-                          onPressed: () => _selectTimeOut3(context),
-                          child: Text(
-                            _timeControllerOut3.text,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'Inter',
-                            ), //
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+            TimeEntry(
+              entryText: _timeControllerIn2.text,
+              exitText: _timeControllerOut2.text,
+              onEntryPressed: () => _selectTimeIn2(context),
+              onExitPressed: () => _selectTimeOut2(context),
             ),
           ],
         ),
