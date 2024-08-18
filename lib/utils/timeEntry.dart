@@ -46,7 +46,7 @@ class TimeEntry extends StatelessWidget {
                       ),
                     ),
                   ),
-                  onPressed: () => onEntryPressed,
+                  onPressed: onEntryPressed,
                   child: Text(
                     entryText,
                     style: const TextStyle(
@@ -85,7 +85,7 @@ class TimeEntry extends StatelessWidget {
                       ),
                     ),
                   ),
-                  onPressed: () => onExitPressed,
+                  onPressed: onExitPressed,
                   child: Text(
                     exitText,
                     style: const TextStyle(

@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 import '../utils/timeEntry.dart';
 
 class HomeScreen extends StatefulWidget {
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-
 class _HomeScreenState extends State<HomeScreen> {
-
   late String _hour, _minute, _showHour;
- 
+
   TimeOfDay selectedTimeIn = const TimeOfDay(hour: 00, minute: 00);
   TimeOfDay selectedTimeOut = const TimeOfDay(hour: 00, minute: 00);
   TimeOfDay selectedTimeIn2 = const TimeOfDay(hour: 00, minute: 00);
@@ -27,106 +24,119 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _timeControllerOut3 = TextEditingController();
 
   int sumHours(TimeOfDay start, TimeOfDay end) {
-    double totalTime = (end.hour + (end.minute / 60)) - (start.hour + (start.minute / 60));
-    int hours = totalTime.floor();
-    int minutes = ((totalTime - totalTime.floorToDouble()) * 60).round();
-    return hours * 60 + minutes;
+    int startMinutes = start.hour * 60 + start.minute;
+    int endMinutes = end.hour * 60 + end.minute;
+    int difference = endMinutes - startMinutes;
+
+    if (difference < 0) {
+      return 0;
+    }
+    return difference;
   }
 
-  String convertTimeToString(int hour, int minute){
-    _hour = hour.toString().padLeft(2, '0');
-    _minute = minute.toString().padLeft(2, '0');
-    return _hour + ' : ' + _minute;
+  String convertTimeToString(int hour, int minute) {
+    String formattedHour = hour.toString().padLeft(2, '0');
+    String formattedMinute = minute.toString().padLeft(2, '0');
+    return '$formattedHour : $formattedMinute';
   }
 
-  String showHour(int time){
+  String showHour(int time) {
     int hour = time ~/ 60;
-    int minutes = time % 60; 
-    return _showHour = hour.toString().padLeft(2, '0') + ' : ' + minutes.toString().padLeft(2, '0');
+    int minutes = time % 60;
+    return _showHour = '${hour.toString().padLeft(2, '0')} : ${minutes.toString().padLeft(2, '0')}';
   }
 
   Future<void> _selectTimeIn(BuildContext context) async {
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: selectedTimeIn
-    );
+    final TimeOfDay? picked =
+        await showTimePicker(context: context, initialTime: selectedTimeIn);
     if (picked != null) {
       setState(() {
         selectedTimeIn = picked;
-        _timeControllerIn.text = convertTimeToString(selectedTimeIn.hour, selectedTimeIn.minute);
+        _timeControllerIn.text =
+            convertTimeToString(selectedTimeIn.hour, selectedTimeIn.minute);
       });
     }
   }
-  
+
   Future<void> _selectTimeOut(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: selectedTimeOut,
-      );
+    );
+    if (picked != null) {
+      if (isTimeOutValid(selectedTimeIn, picked)){
+        setState(() {
+          selectedTimeOut = picked;
+          _timeControllerOut.text =
+              convertTimeToString(selectedTimeOut.hour, selectedTimeOut.minute);
+
+          int calcTime = sumHours(selectedTimeIn, selectedTimeOut);
+          showHour(calcTime);
+        });
+      }
+    }
+  }
+
+  bool isTimeOutValid(TimeOfDay start, TimeOfDay end) {
+    return (end.hour > start.hour) || (end.hour == start.hour && end.minute > start.minute);
+  }
+
+  Future<void> _selectTimeIn2(BuildContext context) async {
+    final TimeOfDay? picked =
+        await showTimePicker(context: context, initialTime: selectedTimeIn2);
     if (picked != null) {
       setState(() {
-        selectedTimeOut = picked;
-        _timeControllerOut.text = convertTimeToString(selectedTimeOut.hour, selectedTimeOut.minute);
-        
-        int calcTime = sumHours(selectedTimeIn, selectedTimeOut);
-        showHour(calcTime);
+        selectedTimeIn2 = picked;
+        _timeControllerIn2.text =
+            convertTimeToString(selectedTimeIn2.hour, selectedTimeIn2.minute);
       });
     }
   }
 
-  Future<void> _selectTimeIn2(BuildContext context) async {
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: selectedTimeIn2
-    );
-    if (picked != null) {
-      setState(() {
-        selectedTimeIn2 = picked;
-        _timeControllerIn2.text = convertTimeToString(selectedTimeIn2.hour, selectedTimeIn2.minute);
-      });
-    }
-  }
-  
   Future<void> _selectTimeOut2(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: selectedTimeOut2,
-      );
+    );
     if (picked != null) {
       setState(() {
         selectedTimeOut2 = picked;
-        _timeControllerOut2.text = convertTimeToString(selectedTimeOut2.hour, selectedTimeOut2.minute);
-        
-        int calcTime = sumHours(selectedTimeIn, selectedTimeOut) + sumHours(selectedTimeIn2, selectedTimeOut2);
+        _timeControllerOut2.text =
+            convertTimeToString(selectedTimeOut2.hour, selectedTimeOut2.minute);
+
+        int calcTime = sumHours(selectedTimeIn, selectedTimeOut) +
+            sumHours(selectedTimeIn2, selectedTimeOut2);
         showHour(calcTime);
       });
     }
   }
 
   Future<void> _selectTimeIn3(BuildContext context) async {
-    final TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: selectedTimeIn3
-    );
+    final TimeOfDay? picked =
+        await showTimePicker(context: context, initialTime: selectedTimeIn3);
     if (picked != null) {
       setState(() {
         selectedTimeIn3 = picked;
-        _timeControllerIn3.text = convertTimeToString(selectedTimeIn3.hour, selectedTimeIn3.minute);
+        _timeControllerIn3.text =
+            convertTimeToString(selectedTimeIn3.hour, selectedTimeIn3.minute);
       });
     }
   }
-  
+
   Future<void> _selectTimeOut3(BuildContext context) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: selectedTimeOut3,
-      );
+    );
     if (picked != null) {
       setState(() {
         selectedTimeOut3 = picked;
-        _timeControllerOut3.text = convertTimeToString(selectedTimeOut3.hour, selectedTimeOut3.minute);
-        
-        int calcTime = sumHours(selectedTimeIn, selectedTimeOut) + sumHours(selectedTimeIn2, selectedTimeOut2)  + sumHours(selectedTimeIn3, selectedTimeOut3);
+        _timeControllerOut3.text =
+            convertTimeToString(selectedTimeOut3.hour, selectedTimeOut3.minute);
+
+        int calcTime = sumHours(selectedTimeIn, selectedTimeOut) +
+            sumHours(selectedTimeIn2, selectedTimeOut2) +
+            sumHours(selectedTimeIn3, selectedTimeOut3);
         showHour(calcTime);
       });
     }
@@ -165,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontSize: 62,
                   fontWeight: FontWeight.w800,
                   fontFamily: 'Lexend',
-                ), 
+                ),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -180,6 +190,12 @@ class _HomeScreenState extends State<HomeScreen> {
               exitText: _timeControllerOut2.text,
               onEntryPressed: () => _selectTimeIn2(context),
               onExitPressed: () => _selectTimeOut2(context),
+            ),
+            TimeEntry(
+              entryText: _timeControllerIn3.text,
+              exitText: _timeControllerOut3.text,
+              onEntryPressed: () => _selectTimeIn3(context),
+              onExitPressed: () => _selectTimeOut3(context),
             ),
           ],
         ),
