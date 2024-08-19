@@ -5,6 +5,7 @@ class TimeEntry extends StatelessWidget {
   final String exitText;
   final VoidCallback onEntryPressed;
   final VoidCallback onExitPressed;
+  final VoidCallback onRemovePressed;
 
   const TimeEntry({
     Key? key,
@@ -12,14 +13,16 @@ class TimeEntry extends StatelessWidget {
     required this.exitText,
     required this.onEntryPressed,
     required this.onExitPressed,
+    required this.onRemovePressed,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 6), //removed horizontal: 38 to make more responsive.
+      padding: const EdgeInsets.only(bottom: 10), //removed horizontal: 38 to make more responsive.
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Container(
             margin: const EdgeInsets.only(right: 2),
@@ -98,6 +101,12 @@ class TimeEntry extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+          IconButton(
+              icon: const Icon(Icons.delete_outline_rounded),
+              iconSize: 32,
+              color: const Color(0xFFC21515),
+              onPressed: onRemovePressed,
           ),
         ],
       ),
