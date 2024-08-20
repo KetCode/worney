@@ -53,4 +53,4 @@ This project is under the MIT license.
 
 ---
 
-Projeto feito através de uma aula da rocketseat. Alterado e adicionado algumas funcionalidades por KetCode.
+Projeto feito por KetCode.
